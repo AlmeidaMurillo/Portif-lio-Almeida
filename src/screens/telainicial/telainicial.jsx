@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import styles from './telainicial.module.css';
 import { Menu, X } from "lucide-react";
-import { BsWhatsapp } from "react-icons/bs";
-import { useIntersectionObserver } from '../../hooks/useIntersectionObserver';
+import { BsWhatsapp, BsLinkedin, BsGithub } from "react-icons/bs";
+import { HiOutlineMail } from "react-icons/hi";
+import useIntersectionObserver from '../../hooks/useIntersectionObserver';
 import Spinner from '../../components/Spinner';
 
-// Componente wrapper para animação
 const Animated = ({ children }) => {
     const [ref, isIntersecting] = useIntersectionObserver({ threshold: 0.1 });
 
@@ -18,9 +18,6 @@ const Animated = ({ children }) => {
 
 
 
-// MELHORAR ESTILIZAÇÃO E RESPONSIVIDADE MODAL
-// OLHAR SITES DE PORTFÓLIO PARA INSPIRAÇÃO, https://www.rhuanbello.com/, https://juniormelo.dev.br/, https://thainanprado.com.br/
-// USAR BASTANTE COISAS DOS PORTIFÓLIOS ACIMA, COLOCAR COMPONENT CARREGAMENTO SPINNER, COLOCAR ABAS PARA COLOCAR PROJETOS COM VIDEOS E ETC TOTALMENTE PROFISSIONAL E INTUITIVO
 const codeSnippets = [
     'const [state, setState] = useState(initialValue);',
     'useEffect(() => { fetchData(); }, [dependency]);',
@@ -48,7 +45,7 @@ const codeSnippets = [
     'const connection = mysql.createConnection({ host, user, password });',
     'ALTER TABLE users ADD COLUMN created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;',
     'DELETE FROM sessions WHERE expires_at < NOW();',
-    
+
 
     'const pool = mysql.createPool({ connectionLimit: 10 });',
     'app.post("/auth/login", validateUser, generateToken);',
@@ -79,7 +76,7 @@ const getCodeColor = (text) => {
     }
 };
 
-const TelaInicial = () => {
+function TelaInicial() {
     const [codeLines, setCodeLines] = useState([]);
     const [menuOpen, setMenuOpen] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
@@ -88,13 +85,13 @@ const TelaInicial = () => {
     useEffect(() => {
         const timer = setTimeout(() => {
             setLoading(false);
-        }, 1800); 
+        }, 1800);
 
         return () => clearTimeout(timer);
     }, []);
 
     useEffect(() => {
-        if (loading) return; 
+        if (loading) return;
 
         const isMobile = window.innerWidth < 768;
         const numLines = isMobile ? 8 : 18;
@@ -119,33 +116,49 @@ const TelaInicial = () => {
 
     const skills = [
         {
-            category: "Tecnologias",
+            category: "Frontend",
             icon: "💻",
-            skills: ["React.js", "HTML", "CSS", "JavaScript", "Styled-Components", "Git/GitHub"]
+            skills: ["React.js", "HTML", "CSS", "JavaScript", "Styled-Components"]
         },
         {
-            category: "Estudando",
+            category: "Ferramentas",
+            icon: "🧰",
+            skills: ["Git", "GitHub"]
+        },
+        {
+            category: "Backend (em evolução)",
             icon: "🚀",
-            skills: ["Node.js (Backend)", "MySQL (Banco de Dados)"]
+            skills: ["Node.js", "MySQL"]
         }
     ];
 
     const projects = [
         {
-            title: "ERP SaaS PDV Multiempresa (Em Desenvolvimento)",
-            description: "Sistema completo de ponto de venda com dashboard moderno, suporte multiempresa, frontend em React.js e backend em Node.js. ",
-            technologies: ["React", "Node.js", "MySQL"],
-            githubUrl: "https://github.com/AlmeidaMurillo",
+            title: "ERP SaaS (PDV Multiempresa) — Em Desenvolvimento",
+            description: "Sistema web de ponto de venda com dashboard administrativo e suporte multiempresa. Aplicação full stack hospedada, desenvolvida em React.js no frontend e Node.js com MySQL no backend. O sistema conta com carrinho de compras, aplicação de cupons, integração com pagamento via Pix utilizando a API do Mercado Pago e interface moderna e responsiva. Projeto em desenvolvimento contínuo.",
+            technologies: ["React.js", "Node.js", "MySQL", "Mercado Pago API"],
+            features: [
+                "Carrinho de compras",
+                "Sistema de cupons",
+                "Pagamento via Pix (Mercado Pago)",
+                "Dashboard administrativo",
+                "Suporte multiempresa",
+                "Interface moderna e responsiva"
+            ],
+            githubUrlFrontend: "https://github.com/AlmeidaMurillo/MultiAlmeida-PDVSaaS",
+            githubUrlBackend: "https://github.com/AlmeidaMurillo/MultiAlmeida-PDVSaaS-Backend",
             liveUrl: "https://multi-almeida-pdv-saa-s.vercel.app"
         },
         {
-            title: "Clone Mercado Pago",
-            description: "Interface moderna recriada em React.js. Apenas o frontend está hospedado devido à limitação do plano gratuito para backend.",
-            technologies: ["React"],
-            githubUrl: "https://github.com/AlmeidaMurillo",
+            title: "Clone Mercado Pago (Front-end)",
+            description: "Recriação da interface do Mercado Pago com foco em layout, responsividade e experiência do usuário. Apenas o frontend está hospedado devido à limitação do plano gratuito para backend.",
+            technologies: ["React.js", "Node.js", "MySQL"],
+            githubUrlFrontend: "https://github.com/AlmeidaMurillo/CloneMercadoPago",
+            githubUrlBackend: "https://github.com/AlmeidaMurillo/CloneMercadoPago-Backend",
             liveUrl: "https://mercadopago-psi.vercel.app"
         }
     ];
+
 
     const scrollToSection = (id) => {
         const element = document.getElementById(id);
@@ -209,16 +222,90 @@ const TelaInicial = () => {
                 </div>
             </div>
 
-            {/* O conteúdo principal da página começa aqui */}
 
             <section className={styles.heroSection}>
                 <div className={styles.heroContent}>
-                    <div>
-                        <h1 className={styles.heroTitle}>ALMEIDA</h1>
-                        <h2 className={styles.heroSubtitle}>Frontend Developer</h2>
-                        <p className={styles.heroDescription}>
-                            Desenvolvedor Front-end com foco em criação de interfaces modernas, performáticas e responsivas utilizando React.js. Possuo experiência prática em projetos full stack, incluindo um ERP SaaS em desenvolvimento integrando Node.js e MySQL. Sou dedicado, evoluindo constantemente e alinhado às melhores práticas, mantendo código limpo, organizado e voltado para entrega de valor.
-                        </p>
+                    <div className={styles.heroGrid}>
+                        <div className={styles.heroTextContent}>
+                            <div className={styles.heroTitleWrapper}>
+                                <h1 className={styles.heroMainTitle}>MURILLO ALMEIDA</h1>
+                                <div className={styles.titleUnderline}></div>
+                            </div>
+                            
+                            <h2 className={styles.heroSubtitle}>Desenvolvedor Front-end</h2>
+                            
+                            <div className={styles.techBadges}>
+                                <span className={styles.techBadge}>
+                                    <span className={styles.badgeIcon}>⚛️</span>
+                                    React.js
+                                </span>
+                                <span className={styles.techBadge}>
+                                    <span className={styles.badgeIcon}>🟢</span>
+                                    Node.js
+                                </span>
+                                <span className={styles.techBadge}>
+                                    <span className={styles.badgeIcon}>🗄️</span>
+                                    MySQL
+                                </span>
+                            </div>
+                            
+                            <p className={styles.heroDescription}>
+                                Desenvolvedor Front-end com foco na criação de interfaces modernas, performáticas e responsivas utilizando React.js. Atuo no desenvolvimento de sistemas web e possuo experiência prática em integração com backend em Node.js e banco de dados MySQL em projetos em desenvolvimento. Sou dedicado à evolução constante, prezando por código limpo, organizado e boas práticas.
+                            </p>
+                        </div>
+
+                        <div className={styles.codeEditorMockup}>
+                            <div className={styles.editorHeader}>
+                                <div className={styles.editorButtons}>
+                                    <span className={styles.editorBtn} style={{background: '#ff5f56'}}></span>
+                                    <span className={styles.editorBtn} style={{background: '#ffbd2e'}}></span>
+                                    <span className={styles.editorBtn} style={{background: '#27c93f'}}></span>
+                                </div>
+                                <div className={styles.editorTitle}>developer.js</div>
+                            </div>
+                            <div className={styles.editorBody}>
+                                <div className={styles.lineNumbers}>
+                                    <span>1</span>
+                                    <span>2</span>
+                                    <span>3</span>
+                                    <span>4</span>
+                                    <span>5</span>
+                                    <span>6</span>
+                                    <span>7</span>
+                                    <span>8</span>
+                                    <span>9</span>
+                                    <span>10</span>
+                                    <span>11</span>
+                                    <span>12</span>
+                                    <span>13</span>
+                                    <span>14</span>
+                                    <span>15</span>
+                                    <span>16</span>
+                                    <span>17</span>
+                                </div>
+                                <div className={styles.editorCode}>
+                                    <div><span className={styles.keyword}>function</span> <span className={styles.variable}>Developer</span>() {'{'}</div>
+                                    <div>&nbsp;&nbsp;<span className={styles.keyword}>const</span> <span className={styles.variable}>info</span> = {'{'}</div>
+                                    <div>&nbsp;&nbsp;&nbsp;&nbsp;<span className={styles.property}>name</span>: <span className={styles.string}>"Murillo Almeida"</span>,</div>
+                                    <div>&nbsp;&nbsp;&nbsp;&nbsp;<span className={styles.property}>role</span>: <span className={styles.string}>"Front-end"</span>,</div>
+                                    <div>&nbsp;&nbsp;&nbsp;&nbsp;<span className={styles.property}>location</span>: <span className={styles.string}>"São Paulo, BR"</span>,</div>
+                                    <div>&nbsp;&nbsp;&nbsp;&nbsp;<span className={styles.property}>skills</span>: [<span className={styles.string}>"React"</span>, <span className={styles.string}>"Node"</span>, <span className={styles.string}>"MySQL"</span>],</div>
+                                    <div>&nbsp;&nbsp;&nbsp;&nbsp;<span className={styles.property}>experience</span>: <span className={styles.boolean}>2</span>,</div>
+                                    <div>&nbsp;&nbsp;&nbsp;&nbsp;<span className={styles.property}>available</span>: <span className={styles.boolean}>true</span></div>
+                                    <div>&nbsp;&nbsp;{'}'};</div>
+                                    <div></div>
+                                    <div>&nbsp;&nbsp;<span className={styles.keyword}>return</span> (</div>
+                                    <div>&nbsp;&nbsp;&nbsp;&nbsp;{'<'}<span className={styles.keyword}>div</span> <span className={styles.property}>className</span>=<span className={styles.string}>"profile"</span>{'>'}</div>
+                                    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{'<'}<span className={styles.keyword}>h2</span>{'>'}{'{'}<span className={styles.variable}>info</span>.<span className={styles.property}>name</span>{'}</'}<span className={styles.keyword}>h2</span>{'>'}</div>
+                                    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{'<'}<span className={styles.keyword}>span</span>{'>'}{'{'}<span className={styles.variable}>info</span>.<span className={styles.property}>role</span>{'}</'}<span className={styles.keyword}>span</span>{'>'}</div>
+                                    <div>&nbsp;&nbsp;&nbsp;&nbsp;{'</'}<span className={styles.keyword}>div</span>{'>'}</div>
+                                    <div>&nbsp;&nbsp;);</div>
+                                    <div>{'}'}</div>
+                                    <div></div>
+                                    <div><span className={styles.keyword}>export default</span> <span className={styles.variable}>Developer</span>;</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div className={styles.buttonContainer}>
@@ -258,19 +345,22 @@ const TelaInicial = () => {
                             <div className={styles.aboutGrid}>
                                 <div className={styles.aboutText}>
                                     <p className={styles.aboutParagraph}>
-                                        Olá, sou Murillo Inacio Ludovico de Almeida, um desenvolvedor de 18 anos de São Paulo, apaixonado por transformar ideias em realidade digital. Minha jornada no desenvolvimento web é focada na criação de experiências de usuário que sejam não apenas funcionais, mas também intuitivas e visualmente atraentes.
+                                        Sou Murillo Inacio Ludovico de Almeida, desenvolvedor web de 18 anos de São Paulo, focado na criação de soluções digitais funcionais, bem estruturadas e visualmente consistentes. Minha atuação é voltada ao desenvolvimento de experiências de usuário modernas, intuitivas e responsivas.
                                     </p>
+
                                     <p className={styles.aboutParagraph}>
-                                        Com uma base sólida em React.js, estou constantemente explorando o ecossistema full stack, trabalhando ativamente com Node.js e MySQL para construir soluções completas e robustas, como meu projeto atual de um ERP SaaS.
+                                        Com uma base sólida em React.js, venho explorando o ecossistema full stack, atuando no desenvolvimento de sistemas web e na integração com backend em Node.js e banco de dados MySQL, incluindo um projeto atual de ERP SaaS em evolução.
                                     </p>
+
                                     <p className={styles.aboutParagraph}>
-                                        Acredito em código limpo, arquitetura escalável e na colaboração em equipe para entregar produtos de alto valor. Estou sempre em busca de novos desafios para aprimorar minhas habilidades e contribuir para projetos inovadores.
+                                        Valorizo código limpo, organização e boas práticas de desenvolvimento, além da colaboração em equipe para entregar soluções eficientes. Busco constantemente novos desafios que contribuam para meu crescimento técnico e profissional.
                                     </p>
+
                                 </div>
                                 <div className={styles.statsGrid}>
                                     <div className={styles.statCard}>
                                         <div className={styles.statIcon}>💻</div>
-                                        <div className={styles.statNumber}>3+</div>
+                                        <div className={styles.statNumber}>2+</div>
                                         <div className={styles.statLabel}>Projetos</div>
                                     </div>
                                     <div className={styles.statCard}>
@@ -325,6 +415,16 @@ const TelaInicial = () => {
                                     <h3 className={styles.projectTitle}>{project.title}</h3>
                                     <p className={styles.projectDescription}>{project.description}</p>
 
+                                    {project.features && (
+                                        <ul className={styles.projectFeatures}>
+                                            {project.features.map((feature, featureIndex) => (
+                                                <li key={featureIndex} className={styles.projectFeatureItem}>
+                                                    ✔ {feature}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    )}
+
                                     <div className={styles.projectTech}>
                                         {project.technologies.map((tech, techIndex) => (
                                             <span key={techIndex} className={styles.projectTechTag}>
@@ -342,6 +442,26 @@ const TelaInicial = () => {
                                                 className={styles.projectLink}
                                             >
                                                 🔗 Código
+                                            </a>
+                                        )}
+                                        {project.githubUrlFrontend && (
+                                            <a
+                                                href={project.githubUrlFrontend}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className={styles.projectLink}
+                                            >
+                                                🔗 Frontend
+                                            </a>
+                                        )}
+                                        {project.githubUrlBackend && (
+                                            <a
+                                                href={project.githubUrlBackend}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className={styles.projectLink}
+                                            >
+                                                🔗 Backend
                                             </a>
                                         )}
                                         {project.liveUrl && (
@@ -366,64 +486,80 @@ const TelaInicial = () => {
                 <Animated>
                     <div className={styles.maxWidth}>
                         <div className={styles.contactCenter}>
-                            <h2 className={styles.sectionTitle}>Vamos Trabalhar Juntos?</h2>
+                            <h2 className={styles.sectionTitle}>Contatos</h2>
                             <p className={styles.contactIntro}>
-                                Estou sempre aberto a novos desafios e oportunidades.
-                                Entre em contato para discutirmos seu próximo projeto!
+                                Aberto a novas oportunidades e projetos.
+                                Entre em contato para conversarmos sobre ideias, soluções e possíveis colaborações.
                             </p>
                             <div className={styles.contactCard}>
                                 <div className={styles.contactGrid}>
-                                    <div className={styles.contactItem}>
-                                        <div className={styles.contactIcon}>
-                                            <svg width="32" height="32" fill="currentColor" viewBox="0 0 24 24">
-                                                <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-.904.732-1.636 1.636-1.636h.749L12 10.855l9.615-7.034h.749c.904 0 1.636.732 1.636 1.636z" />
-                                            </svg>
+                                    <a 
+                                        href="https://mail.google.com/mail/?view=cm&fs=1&to=almeidamurillo196@gmail.com&su=Olá%20Murillo&body=Olá,%20gostaria%20de%20entrar%20em%20contato." 
+                                        target="_blank" 
+                                        rel="noopener noreferrer" 
+                                        className={styles.contactItem}
+                                        aria-label="Enviar email para almeidamurillo196@gmail.com"
+                                    >
+                                        <div className={`${styles.contactIconWrapper} ${styles.emailIcon}`}>
+                                            <HiOutlineMail size={28} />
                                         </div>
-                                        <h3 className={styles.contactTitle}>Email</h3>
-                                        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=almeidamurillo196@gmail.com&su=Assunto&body=Mensagem%20inicial" target="_blank" rel="noopener noreferrer" className={styles.contactLink}>
-                                            almeidamurillo196@gmail.com
-                                        </a>
-                                    </div>
-                                    <div className={styles.contactItem}>
-                                        <div className={styles.contactIcon}>
-                                            <svg width="32" height="32" fill="currentColor" viewBox="0 0 24 24">
-                                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                                            </svg>
+                                        <div className={styles.contactContent}>
+                                            <h3 className={styles.contactTitle}>Email</h3>
+                                            <p className={styles.contactLink}>almeidamurillo196@gmail.com</p>
+                                            <span className={styles.contactHint}>Clique para enviar →</span>
                                         </div>
-                                        <h3 className={styles.contactTitle}>LinkedIn</h3>
-                                        <a
-                                            href="https://www.linkedin.com/in/AlmeidaMurillo"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className={styles.contactLink}
-                                        >
-                                            www.linkedin.com/in/AlmeidaMurillo
-                                        </a>
+                                    </a>
 
-                                    </div>
-                                    <div className={styles.contactItem}>
-                                        <div className={styles.contactIcon}>
-                                            <svg width="32" height="32" fill="currentColor" viewBox="0 0 24 24">
-                                                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
-                                            </svg>
+                                    <a
+                                        href="https://www.linkedin.com/in/AlmeidaMurillo"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className={styles.contactItem}
+                                        aria-label="Visitar perfil no LinkedIn"
+                                    >
+                                        <div className={`${styles.contactIconWrapper} ${styles.linkedinIcon}`}>
+                                            <BsLinkedin size={28} />
                                         </div>
-                                        <h3 className={styles.contactTitle}>GitHub</h3>
-                                        <a href="https://github.com/AlmeidaMurillo" target="_blank" rel="noopener noreferrer" className={styles.contactLink}>
-                                            github.com/AlmeidaMurillo
-                                        </a>
-                                    </div>
-                                    <div className={styles.contactItem}>
-                                        <div className={styles.contactIcon}><BsWhatsapp size={32} /></div>
-                                        <h3 className={styles.contactTitle}>WhatsApp</h3>
-                                        <a
-                                            href="https://wa.me/5511970543189"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className={styles.contactLink}
-                                        >
-                                            +55 11 97054-3189
-                                        </a>
-                                    </div>
+                                        <div className={styles.contactContent}>
+                                            <h3 className={styles.contactTitle}>LinkedIn</h3>
+                                            <p className={styles.contactLink}>in/AlmeidaMurillo</p>
+                                            <span className={styles.contactHint}>Conectar profissionalmente →</span>
+                                        </div>
+                                    </a>
+
+                                    <a 
+                                        href="https://github.com/AlmeidaMurillo" 
+                                        target="_blank" 
+                                        rel="noopener noreferrer" 
+                                        className={styles.contactItem}
+                                        aria-label="Visitar perfil no GitHub"
+                                    >
+                                        <div className={`${styles.contactIconWrapper} ${styles.githubIcon}`}>
+                                            <BsGithub size={28} />
+                                        </div>
+                                        <div className={styles.contactContent}>
+                                            <h3 className={styles.contactTitle}>GitHub</h3>
+                                            <p className={styles.contactLink}>@AlmeidaMurillo</p>
+                                            <span className={styles.contactHint}>Ver repositórios →</span>
+                                        </div>
+                                    </a>
+
+                                    <a
+                                        href="https://wa.me/5511970543189?text=Olá%20Murillo,%20vim%20através%20do%20seu%20portfólio!"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className={styles.contactItem}
+                                        aria-label="Enviar mensagem no WhatsApp"
+                                    >
+                                        <div className={`${styles.contactIconWrapper} ${styles.whatsappIcon}`}>
+                                            <BsWhatsapp size={28} />
+                                        </div>
+                                        <div className={styles.contactContent}>
+                                            <h3 className={styles.contactTitle}>WhatsApp</h3>
+                                            <p className={styles.contactLink}>+55 11 97054-3189</p>
+                                            <span className={styles.contactHint}>Conversar agora →</span>
+                                        </div>
+                                    </a>
                                 </div>
 
                                 <div className={styles.availabilitySection}>
@@ -433,13 +569,13 @@ const TelaInicial = () => {
                                             Projetos Freelance
                                         </span>
                                         <span className={`${styles.availabilityTag} ${styles.availabilityTagConsulting}`}>
-                                            Consultoria Técnica
+                                            Colaboração Técnica
                                         </span>
                                         <span className={`${styles.availabilityTag} ${styles.availabilityTagFulltime}`}>
-                                            Oportunidades Full-time
+                                            Oportunidades Full-time / Júnior
                                         </span>
                                         <span className={`${styles.availabilityTag} ${styles.availabilityTagMentoring}`}>
-                                            Mentoria
+                                            Projetos Open-source
                                         </span>
                                     </div>
                                 </div>
@@ -452,7 +588,7 @@ const TelaInicial = () => {
             <footer className={styles.footer}>
                 <div className={styles.maxWidth}>
                     <p className={styles.footerText}>
-                        © 2025 Almeida. Desenvolvido com ❤️ usando ReactJs.
+                        © 2025 Almeida. Desenvolvido usando ReactJs.
                     </p>
                     <p className={styles.footerQuote}>
                         "Code is poetry written in logic" - Transformando ideias em realidade digital
@@ -460,7 +596,6 @@ const TelaInicial = () => {
                 </div>
             </footer>
 
-            {/* O Modal foi movido para cá, no final do container principal */}
             {modalOpen && (
                 <div className={styles.modalOverlay} onClick={() => setModalOpen(false)}>
                     <div
@@ -474,91 +609,80 @@ const TelaInicial = () => {
                             <X size={20} />
                         </button>
 
-                        <h2 className={styles.modalTitle}>Vamos Trabalhar Juntos?</h2>
+                        <h2 className={styles.modalTitle}>Contato</h2>
                         <p className={styles.modalIntro}>
                             Estou sempre aberto a novos desafios e oportunidades.
                             Entre em contato para discutirmos seu próximo projeto!
                         </p>
 
                         <div className={styles.contactGrid}>
-                            <div className={styles.contactItem}>
-                                <div className={styles.contactIcon}>
-                                    <svg
-                                        width="32"
-                                        height="32"
-                                        fill="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-.904.732-1.636 1.636-1.636h.749L12 10.855l9.615-7.034h.749c.904 0 1.636.732 1.636 1.636z" />
-                                    </svg>
+                            <a 
+                                href="https://mail.google.com/mail/?view=cm&fs=1&to=almeidamurillo196@gmail.com&su=Olá%20Murillo&body=Olá,%20gostaria%20de%20entrar%20em%20contato." 
+                                target="_blank" 
+                                rel="noopener noreferrer" 
+                                className={styles.contactItem}
+                                aria-label="Enviar email para almeidamurillo196@gmail.com"
+                            >
+                                <div className={`${styles.contactIconWrapper} ${styles.emailIcon}`}>
+                                    <HiOutlineMail size={28} />
                                 </div>
-                                <h3 className={styles.contactTitle}>Email</h3>
-                                <a
-                                    href="https://mail.google.com/mail/?view=cm&fs=1&to=almeidamurillo196@gmail.com&su=Assunto&body=Mensagem%20inicial"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className={styles.contactLink}
-                                >
-                                    almeidamurillo196@gmail.com
-                                </a>
-                            </div>
-
-                            <div className={styles.contactItem}>
-                                <div className={styles.contactIcon}>
-                                    <svg
-                                        width="32"
-                                        height="32"
-                                        fill="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                                    </svg>
+                                <div className={styles.contactContent}>
+                                    <h3 className={styles.contactTitle}>Email</h3>
+                                    <p className={styles.contactLink}>almeidamurillo196@gmail.com</p>
+                                    <span className={styles.contactHint}>Clique para enviar →</span>
                                 </div>
-                                <h3 className={styles.contactTitle}>LinkedIn</h3>
-                                <a
-                                    href="https://www.linkedin.com/in/AlmeidaMurillo"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className={styles.contactLink}
-                                >
-                                    www.linkedin.com/in/AlmeidaMurillo
-                                </a>
-                            </div>
+                            </a>
 
-                            <div className={styles.contactItem}>
-                                <div className={styles.contactIcon}>
-                                    <svg
-                                        width="32"
-                                        height="32"
-                                        fill="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
-                                    </svg>
+                            <a
+                                href="https://www.linkedin.com/in/AlmeidaMurillo"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={styles.contactItem}
+                                aria-label="Visitar perfil no LinkedIn"
+                            >
+                                <div className={`${styles.contactIconWrapper} ${styles.linkedinIcon}`}>
+                                    <BsLinkedin size={28} />
                                 </div>
-                                <h3 className={styles.contactTitle}>GitHub</h3>
-                                <a
-                                    href="https://github.com/AlmeidaMurillo"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className={styles.contactLink}
-                                >
-                                    github.com/AlmeidaMurillo
-                                </a>
-                            </div>
+                                <div className={styles.contactContent}>
+                                    <h3 className={styles.contactTitle}>LinkedIn</h3>
+                                    <p className={styles.contactLink}>in/AlmeidaMurillo</p>
+                                    <span className={styles.contactHint}>Conectar profissionalmente →</span>
+                                </div>
+                            </a>
 
-                            <div className={styles.contactItem}>
-                                <div className={styles.contactIcon}><BsWhatsapp size={32} /></div>
-                                <h3 className={styles.contactTitle}>WhatsApp</h3>
-                                <a
-                                    href="https://wa.me/5511970543189"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className={styles.contactLink}
-                                >
-                                    +55 11 97054-3189
-                                </a>
-                            </div>
+                            <a 
+                                href="https://github.com/AlmeidaMurillo" 
+                                target="_blank" 
+                                rel="noopener noreferrer" 
+                                className={styles.contactItem}
+                                aria-label="Visitar perfil no GitHub"
+                            >
+                                <div className={`${styles.contactIconWrapper} ${styles.githubIcon}`}>
+                                    <BsGithub size={28} />
+                                </div>
+                                <div className={styles.contactContent}>
+                                    <h3 className={styles.contactTitle}>GitHub</h3>
+                                    <p className={styles.contactLink}>@AlmeidaMurillo</p>
+                                    <span className={styles.contactHint}>Ver repositórios →</span>
+                                </div>
+                            </a>
+
+                            <a
+                                href="https://wa.me/5511970543189?text=Olá%20Murillo,%20vim%20através%20do%20seu%20portfólio!"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={styles.contactItem}
+                                aria-label="Enviar mensagem no WhatsApp"
+                            >
+                                <div className={`${styles.contactIconWrapper} ${styles.whatsappIcon}`}>
+                                    <BsWhatsapp size={28} />
+                                </div>
+                                <div className={styles.contactContent}>
+                                    <h3 className={styles.contactTitle}>WhatsApp</h3>
+                                    <p className={styles.contactLink}>+55 11 97054-3189</p>
+                                    <span className={styles.contactHint}>Conversar agora →</span>
+                                </div>
+                            </a>
                         </div>
                     </div>
                 </div>

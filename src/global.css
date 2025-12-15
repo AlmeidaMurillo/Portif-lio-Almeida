@@ -47,7 +47,6 @@ section {
   padding: 60px 20px;
 }
 
-/* ===== Custom Scrollbar ===== */
 ::-webkit-scrollbar {
   width: 10px;
 }

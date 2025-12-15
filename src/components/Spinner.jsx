@@ -1,7 +1,6 @@
-import React from 'react';
 import styles from './Spinner.module.css';
 
-const Spinner = ({ loading }) => {
+function Spinner({ loading }){
     return (
         <div className={`${styles.spinnerOverlay} ${!loading ? styles.hidden : ''}`}>
             <div className={styles.spinnerContainer}>
