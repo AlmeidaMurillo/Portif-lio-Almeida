@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import styles from './telainicial.module.css';
-import { Menu, X } from "lucide-react";
+import { Menu, X, Sun, Moon } from "lucide-react";
 import { BsWhatsapp, BsLinkedin, BsGithub } from "react-icons/bs";
 import { HiOutlineMail } from "react-icons/hi";
 import useIntersectionObserver from '../../hooks/useIntersectionObserver';
 import Spinner from '../../components/Spinner';
+import pdvSaasImg from '../../images/MultiAlmeidaPDV.png';
+import mercadoPagoImg from '../../images/MercadoPagoClone.png';
 
 const Animated = ({ children }) => {
     const [ref, isIntersecting] = useIntersectionObserver({ threshold: 0.1 });
@@ -66,13 +68,13 @@ const codeSnippets = [
 
 const getCodeColor = (text) => {
     if (text.includes('SELECT') || text.includes('INSERT') || text.includes('UPDATE') || text.includes('CREATE') || text.includes('mysql')) {
-        return '#fb923c';
+        return '#cccccc';
     } else if (text.includes('app.') || text.includes('express') || text.includes('require') || text.includes('process.env') || text.includes('jwt') || text.includes('bcrypt')) {
-        return '#4ade80';
+        return '#ffffff';
     } else if (text.includes('useState') || text.includes('useEffect') || text.includes('React') || text.includes('const [') || text.includes('return <') || text.includes('interface')) {
-        return '#60a5fa';
+        return '#eeeeee';
     } else {
-        return '#c084fc';
+        return '#dddddd';
     }
 };
 
@@ -81,6 +83,18 @@ function TelaInicial() {
     const [menuOpen, setMenuOpen] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [theme, setTheme] = useState(
+        localStorage.getItem("theme") || "dark"
+    );
+
+    useEffect(() => {
+        document.documentElement.setAttribute("data-theme", theme);
+        localStorage.setItem("theme", theme);
+    }, [theme]);
+
+    const toggleTheme = () => {
+        setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+    };
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -134,14 +148,16 @@ function TelaInicial() {
 
     const projects = [
         {
-            title: "ERP SaaS (PDV Multiempresa) — Em Desenvolvimento",
-            description: "Sistema web de ponto de venda com dashboard administrativo e suporte multiempresa. Aplicação full stack hospedada, desenvolvida em React.js no frontend e Node.js com MySQL no backend. O sistema conta com carrinho de compras, aplicação de cupons, integração com pagamento via Pix utilizando a API do Mercado Pago e interface moderna e responsiva. Projeto em desenvolvimento contínuo.",
+            title: "ERP SaaS (PDV Multiempresa)",
+            status: "Em Desenvolvimento",
+            description: "Sistema web de ponto de venda com dashboard administrativo e suporte multiempresa. Aplicação full stack hospedada, desenvolvida em React.js no frontend e Node.js com MySQL no backend.",
+            image: pdvSaasImg,
             technologies: ["React.js", "Node.js", "MySQL", "Mercado Pago API"],
             features: [
-                "Carrinho de compras",
-                "Sistema de cupons",
+                "Carrinho de compras inteligente",
+                "Sistema de cupons e descontos",
                 "Pagamento via Pix (Mercado Pago)",
-                "Dashboard administrativo",
+                "Dashboard administrativo completo",
                 "Suporte multiempresa",
                 "Interface moderna e responsiva"
             ],
@@ -150,8 +166,11 @@ function TelaInicial() {
             liveUrl: "https://multi-almeida-pdv-saa-s.vercel.app"
         },
         {
-            title: "Clone Mercado Pago (Front-end)",
-            description: "Recriação da interface do Mercado Pago com foco em layout, responsividade e experiência do usuário. Apenas o frontend está hospedado devido à limitação do plano gratuito para backend.",
+            title: "Clone Mercado Pago",
+            status: "Concluído",
+            description: "Recriação da interface do Mercado Pago com foco em layout, responsividade e experiência do usuário. Projeto full stack com React.js e Node.js.",
+            note: "Apenas o frontend está hospedado devido à limitação do plano gratuito para backend.",
+            image: mercadoPagoImg,
             technologies: ["React.js", "Node.js", "MySQL"],
             githubUrlFrontend: "https://github.com/AlmeidaMurillo/CloneMercadoPago",
             githubUrlBackend: "https://github.com/AlmeidaMurillo/CloneMercadoPago-Backend",
@@ -170,6 +189,15 @@ function TelaInicial() {
     return (
         <div className={styles.container}>
             <Spinner loading={loading} />
+            
+            {/* Overlay para fechar o menu clicando fora */}
+            {menuOpen && (
+                <div 
+                    className={styles.menuOverlay} 
+                    onClick={() => setMenuOpen(false)}
+                />
+            )}
+            
             <header className={styles.header}>
                 <div className={styles.headerContent}>
                     <a
@@ -184,18 +212,29 @@ function TelaInicial() {
                     </a>
 
                     <nav className={`${styles.nav} ${menuOpen ? styles.open : ""}`}>
-                        <button className={styles.navLink} onClick={() => scrollToSection('sobre')}>Sobre Mim</button>
-                        <button className={styles.navLink} onClick={() => scrollToSection('habilidades')}>Habilidades</button>
-                        <button className={styles.navLink} onClick={() => scrollToSection('projetos')}>Projetos</button>
-                        <button className={styles.navLink} onClick={() => scrollToSection('contato')}>Contato</button>
+                        <button className={styles.navLink} onClick={() => { scrollToSection('sobre'); setMenuOpen(false); }}>Sobre Mim</button>
+                        <button className={styles.navLink} onClick={() => { scrollToSection('habilidades'); setMenuOpen(false); }}>Habilidades</button>
+                        <button className={styles.navLink} onClick={() => { scrollToSection('projetos'); setMenuOpen(false); }}>Projetos</button>
+                        <button className={styles.navLink} onClick={() => { scrollToSection('contato'); setMenuOpen(false); }}>Contato</button>
                     </nav>
 
-                    <button
-                        className={styles.menuBtn}
-                        onClick={() => setMenuOpen(!menuOpen)}
-                    >
-                        {menuOpen ? <X size={28} /> : <Menu size={28} />}
-                    </button>
+                    <div className={styles.headerActions}>
+                        <button
+                            className={styles.themeToggle}
+                            onClick={toggleTheme}
+                            aria-label="Alternar tema"
+                        >
+                            {theme === "dark" ? <Sun size={22} /> : <Moon size={22} />}
+                        </button>
+
+                        <button
+                            className={styles.menuBtn}
+                            onClick={() => setMenuOpen(!menuOpen)}
+                            aria-label="Menu"
+                        >
+                            {menuOpen ? <X size={28} /> : <Menu size={28} />}
+                        </button>
+                    </div>
                 </div>
             </header>
             <div className={styles.backgroundContainer}>
@@ -257,9 +296,9 @@ function TelaInicial() {
                         <div className={styles.codeEditorMockup}>
                             <div className={styles.editorHeader}>
                                 <div className={styles.editorButtons}>
-                                    <span className={styles.editorBtn} style={{background: '#ff5f56'}}></span>
-                                    <span className={styles.editorBtn} style={{background: '#ffbd2e'}}></span>
-                                    <span className={styles.editorBtn} style={{background: '#27c93f'}}></span>
+                                    <span className={`${styles.editorBtn} ${styles.editorBtnWhite}`}></span>
+                                    <span className={`${styles.editorBtn} ${styles.editorBtnGray}`}></span>
+                                    <span className={`${styles.editorBtn} ${styles.editorBtnDarkGray}`}></span>
                                 </div>
                                 <div className={styles.editorTitle}>developer.js</div>
                             </div>
@@ -388,7 +427,7 @@ function TelaInicial() {
                             {skills.map((skill, index) => (
                                 <div key={index} className={styles.skillCard}>
                                     <div className={styles.skillHeader}>
-                                        <span style={{ fontSize: '1.5rem' }}>{skill.icon}</span>
+                                        <span className={styles.skillIcon}>{skill.icon}</span>
                                         <h3 className={styles.skillTitle}>{skill.category}</h3>
                                     </div>
                                     <div className={styles.skillTags}>
@@ -412,68 +451,106 @@ function TelaInicial() {
                         <div className={`${styles.grid} ${styles.gridCols3}`}>
                             {projects.map((project, index) => (
                                 <div key={index} className={styles.projectCard}>
-                                    <h3 className={styles.projectTitle}>{project.title}</h3>
-                                    <p className={styles.projectDescription}>{project.description}</p>
-
-                                    {project.features && (
-                                        <ul className={styles.projectFeatures}>
-                                            {project.features.map((feature, featureIndex) => (
-                                                <li key={featureIndex} className={styles.projectFeatureItem}>
-                                                    ✔ {feature}
-                                                </li>
-                                            ))}
-                                        </ul>
+                                    {project.image && (
+                                        <div className={styles.projectImageContainer}>
+                                            <img 
+                                                src={project.image} 
+                                                alt={project.title}
+                                                className={styles.projectImage}
+                                            />
+                                            <div className={styles.projectImageOverlay}>
+                                                {project.liveUrl && (
+                                                    <a
+                                                        href={project.liveUrl}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className={styles.projectViewDemo}
+                                                    >
+                                                        Ver Projeto ↗
+                                                    </a>
+                                                )}
+                                            </div>
+                                        </div>
                                     )}
+                                    
+                                    <div className={styles.projectContent}>
+                                        <div className={styles.projectHeader}>
+                                            <h3 className={styles.projectTitle}>{project.title}</h3>
+                                            {project.status && (
+                                                <span className={styles.projectStatus}>{project.status}</span>
+                                            )}
+                                        </div>
+                                        
+                                        <p className={styles.projectDescription}>{project.description}</p>
 
-                                    <div className={styles.projectTech}>
-                                        {project.technologies.map((tech, techIndex) => (
-                                            <span key={techIndex} className={styles.projectTechTag}>
-                                                {tech}
-                                            </span>
-                                        ))}
-                                    </div>
+                                        {project.note && (
+                                            <div className={styles.projectNote}>
+                                                <span className={styles.noteIcon}>ℹ️</span>
+                                                <span>{project.note}</span>
+                                            </div>
+                                        )}
 
-                                    <div className={styles.projectLinks}>
-                                        {project.githubUrl && (
-                                            <a
-                                                href={project.githubUrl}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className={styles.projectLink}
-                                            >
-                                                🔗 Código
-                                            </a>
+                                        {project.features && (
+                                            <ul className={styles.projectFeatures}>
+                                                {project.features.map((feature, featureIndex) => (
+                                                    <li key={featureIndex} className={styles.projectFeatureItem}>
+                                                        <span className={styles.featureIcon}>✓</span>
+                                                        {feature}
+                                                    </li>
+                                                ))}
+                                            </ul>
                                         )}
-                                        {project.githubUrlFrontend && (
-                                            <a
-                                                href={project.githubUrlFrontend}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className={styles.projectLink}
-                                            >
-                                                🔗 Frontend
-                                            </a>
-                                        )}
-                                        {project.githubUrlBackend && (
-                                            <a
-                                                href={project.githubUrlBackend}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className={styles.projectLink}
-                                            >
-                                                🔗 Backend
-                                            </a>
-                                        )}
-                                        {project.liveUrl && (
-                                            <a
-                                                href={project.liveUrl}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className={`${styles.projectLink} ${styles.projectLinkDemo}`}
-                                            >
-                                                🚀 Demo
-                                            </a>
-                                        )}
+
+                                        <div className={styles.projectTech}>
+                                            {project.technologies.map((tech, techIndex) => (
+                                                <span key={techIndex} className={styles.projectTechTag}>
+                                                    {tech}
+                                                </span>
+                                            ))}
+                                        </div>
+
+                                        <div className={styles.projectLinks}>
+                                            {project.githubUrl && (
+                                                <a
+                                                    href={project.githubUrl}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className={styles.projectLink}
+                                                >
+                                                    <span>📄</span> Código
+                                                </a>
+                                            )}
+                                            {project.githubUrlFrontend && (
+                                                <a
+                                                    href={project.githubUrlFrontend}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className={styles.projectLink}
+                                                >
+                                                    <span>💻</span> Frontend
+                                                </a>
+                                            )}
+                                            {project.githubUrlBackend && (
+                                                <a
+                                                    href={project.githubUrlBackend}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className={styles.projectLink}
+                                                >
+                                                    <span>⚙️</span> Backend
+                                                </a>
+                                            )}
+                                            {project.liveUrl && (
+                                                <a
+                                                    href={project.liveUrl}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className={`${styles.projectLink} ${styles.projectLinkDemo}`}
+                                                >
+                                                    <span>🚀</span> Demo ao Vivo
+                                                </a>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
                             ))}
