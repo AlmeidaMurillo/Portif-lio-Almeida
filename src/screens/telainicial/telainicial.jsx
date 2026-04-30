@@ -7,6 +7,7 @@ import useIntersectionObserver from '../../hooks/useIntersectionObserver';
 import Spinner from '../../components/Spinner';
 import pdvSaasImg from '../../images/MultiAlmeidaPDV.png';
 import mercadoPagoImg from '../../images/MercadoPagoClone.png';
+import certificadoImg from '../../images/certificado.png';
 
 const Animated = ({ children }) => {
     const [ref, isIntersecting] = useIntersectionObserver({ threshold: 0.1 });
@@ -178,6 +179,22 @@ function TelaInicial() {
         }
     ];
 
+    const courses = [
+        {
+            title: "Curso de React JS do básico ao avançado",
+            status: "Concluído",
+            description: "Domínio de hooks (useState, useEffect), Context API e React Router. Implementação de APIs assíncronas, manipulação de formulários complexos e interfaces performáticas. Foco em componentização avançada, lógica de estado global e fundamentos full stack com Node.js e MySQL.",
+            image: certificadoImg,
+            technologies: ["React.js", "JavaScript", "Hooks", "Context API", "Node.js", "APIs externas", "JavaScript ES6+"],
+            liveUrl: "/Certificado - Curso de React JS do básico ao avançado.pdf",
+            duration: "34 horas",
+            completionDate: "22/04/2025",
+            institution: "Hora De Codar",
+            institutionUrl: "https://app.horadecodar.com.br",
+            instructor: "Matheus Battisti"
+        },
+    ];
+
 
     const scrollToSection = (id) => {
         const element = document.getElementById(id);
@@ -214,6 +231,7 @@ function TelaInicial() {
                     <nav className={`${styles.nav} ${menuOpen ? styles.open : ""}`}>
                         <button className={styles.navLink} onClick={() => { scrollToSection('sobre'); setMenuOpen(false); }}>Sobre Mim</button>
                         <button className={styles.navLink} onClick={() => { scrollToSection('habilidades'); setMenuOpen(false); }}>Habilidades</button>
+                        <button className={styles.navLink} onClick={() => { scrollToSection('cursos'); setMenuOpen(false); }}>Cursos</button>
                         <button className={styles.navLink} onClick={() => { scrollToSection('projetos'); setMenuOpen(false); }}>Projetos</button>
                         <button className={styles.navLink} onClick={() => { scrollToSection('contato'); setMenuOpen(false); }}>Contato</button>
                     </nav>
@@ -440,6 +458,112 @@ function TelaInicial() {
                                 </div>
                             ))}
                         </div>
+                    </div>
+                </Animated>
+            </section>
+
+            <section id="cursos" className={styles.section}>
+                <Animated>
+                    <div className={styles.maxWidth}>
+                        <h2 className={styles.sectionTitle}>Cursos e Certificados</h2>
+                        <div className={`${styles.grid} ${styles.gridCols3}`}>
+                            {courses.map((course, index) => (
+                                <div key={index} className={styles.courseCard}>
+                                    {course.image && (
+                                        <div className={styles.courseImageContainer}>
+                                            <img 
+                                                src={course.image} 
+                                                alt={course.title}
+                                                className={styles.courseImage}
+                                            />
+                                            <div className={styles.courseImageOverlay}>
+                                                {course.liveUrl && (
+                                                    <a
+                                                        href={course.liveUrl}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className={styles.courseViewDemo}
+                                                    >
+                                                        Ver Certificado ↗
+                                                    </a>
+                                                )}
+                                            </div>
+                                        </div>
+                                    )}
+                                    
+                                    <div className={styles.courseContent}>
+                                        <div className={styles.courseHeader}>
+                                            <h3 className={styles.courseTitle}>{course.title}</h3>
+                                            {course.status && (
+                                                <span className={styles.courseStatus}>{course.status}</span>
+                                            )}
+                                        </div>
+                                        
+                                        <p className={styles.courseDescription}>{course.description}</p>
+
+                                        <div className={styles.courseDetails}>
+                                            {course.institution && (
+                                                <div className={styles.courseDetailItem}>
+                                                    <strong>Instituição:</strong> 
+                                                    <a href={course.institutionUrl} target="_blank" rel="noopener noreferrer" className={styles.institutionLink}>
+                                                        {course.institution} ↗
+                                                    </a>
+                                                </div>
+                                            )}
+                                            {course.instructor && (
+                                                <div className={styles.courseDetailItem}>
+                                                    <strong>Instrutor:</strong> {course.instructor}
+                                                </div>
+                                            )}
+                                            {course.duration && (
+                                                <div className={styles.courseDetailItem}>
+                                                    <strong>Carga Horária:</strong> {course.duration}
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        {course.note && (
+                                            <div className={styles.courseNote}>
+                                                <span className={styles.noteIcon}>ℹ️</span>
+                                                <span>{course.note}</span>
+                                            </div>
+                                        )}
+
+                                        {course.features && (
+                                            <ul className={styles.courseFeatures}>
+                                                {course.features.map((feature, featureIndex) => (
+                                                    <li key={featureIndex} className={styles.courseFeatureItem}>
+                                                        <span className={styles.featureIcon}>✓</span>
+                                                        {feature}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        )}
+
+                                        <div className={styles.courseTech}>
+                                            {course.technologies.map((tech, techIndex) => (
+                                                <span key={techIndex} className={styles.courseTechTag}>
+                                                    {tech}
+                                                </span>
+                                            ))}
+                                        </div>
+
+                                        <div className={styles.courseLinks}>
+                                            {course.liveUrl && (
+                                                <a
+                                                    href={course.liveUrl}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className={`${styles.courseLink} ${styles.courseLinkDemo}`}
+                                                >
+                                                    Ver Certificado ↗
+                                                </a>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div> 
                     </div>
                 </Animated>
             </section>
