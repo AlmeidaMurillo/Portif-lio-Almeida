@@ -372,6 +372,14 @@ function TelaInicial() {
                         >
                             Entre em Contato
                         </button>
+                        <a
+                            href="/Curriculo-Murillo-Almeida.pdf"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={styles.primaryButton}
+                        >
+                            Currículo ↗
+                        </a>
                     </div>
 
                     <div className={styles.socialLinks}>
