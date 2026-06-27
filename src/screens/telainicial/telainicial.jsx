@@ -5,8 +5,7 @@ import { BsWhatsapp, BsLinkedin, BsGithub } from "react-icons/bs";
 import { HiOutlineMail } from "react-icons/hi";
 import useIntersectionObserver from '../../hooks/useIntersectionObserver';
 import Spinner from '../../components/Spinner';
-import pdvSaasImg from '../../images/MultiAlmeidaPDV.png';
-import mercadoPagoImg from '../../images/MercadoPagoClone.png';
+import multiAlmeidaSoftwaresImg from '../../images/MultiAlmeidaPDV.png';
 import certificadoImg from '../../images/certificado.png';
 
 const Animated = ({ children }) => {
@@ -149,33 +148,52 @@ function TelaInicial() {
 
     const projects = [
         {
-            title: "ERP SaaS (PDV Multiempresa)",
-            status: "Em Desenvolvimento",
-            description: "Sistema web de ponto de venda com dashboard administrativo e suporte multiempresa. Aplicação full stack hospedada, desenvolvida em React.js no frontend e Node.js com MySQL no backend.",
-            image: pdvSaasImg,
-            technologies: ["React.js", "Node.js", "MySQL", "Mercado Pago API"],
+            title: "MultiAlmeida Softwares",
+            status: "Concluído",
+            description: "Site institucional e painel administrativo local para uma software house, com vitrine de serviços, produtos SaaS, formulário de orçamento e funil comercial salvo no navegador.",
+            image: multiAlmeidaSoftwaresImg,
+            technologies: ["React.js", "Vite", "LocalStorage", "CSS Modules"],
             features: [
-                "Carrinho de compras inteligente",
-                "Sistema de cupons e descontos",
-                "Pagamento via Pix (Mercado Pago)",
-                "Dashboard administrativo completo",
-                "Suporte multiempresa",
-                "Interface moderna e responsiva"
+                "Landing page comercial responsiva",
+                "Modal de solicitação de orçamento",
+                "Painel administrativo local",
+                "Funil de orçamentos por status"
             ],
-            githubUrlFrontend: "https://github.com/AlmeidaMurillo/MultiAlmeida-PDVSaaS",
-            githubUrlBackend: "https://github.com/AlmeidaMurillo/MultiAlmeida-PDVSaaS-Backend",
-            liveUrl: "https://multi-almeida-pdv-saa-s.vercel.app"
+            liveUrl: "https://multi-almeida-softwares.vercel.app"
         },
         {
-            title: "Clone Mercado Pago",
+            title: "Sistema Agendamento Clínica",
             status: "Concluído",
-            description: "Recriação da interface do Mercado Pago com foco em layout, responsividade e experiência do usuário. Projeto full stack com React.js e Node.js.",
-            note: "Apenas o frontend está hospedado devido à limitação do plano gratuito para backend.",
-            image: mercadoPagoImg,
-            technologies: ["React.js", "Node.js", "MySQL"],
-            githubUrlFrontend: "https://github.com/AlmeidaMurillo/CloneMercadoPago",
-            githubUrlBackend: "https://github.com/AlmeidaMurillo/CloneMercadoPago-Backend",
-            liveUrl: "https://mercadopago-psi.vercel.app"
+            description: "Sistema frontend para gestão de clínica com login local, perfis de recepção e médico, dashboard, cadastros, agenda, consultas, prontuários e assistente virtual.",
+            preview: {
+                kicker: "Gestão clínica",
+                title: "Agenda, pacientes e prontuários",
+                items: ["Recepção", "Médicos", "Consultas", "LocalStorage"]
+            },
+            technologies: ["React.js", "TypeScript", "Vite", "LocalStorage"],
+            features: [
+                "Rotas protegidas por perfil",
+                "Dashboard com indicadores",
+                "Cadastro de pacientes e médicos",
+                "Agendamentos, consultas e prontuários"
+            ]
+        },
+        {
+            title: "MultiAlmeida MultiPix",
+            status: "Concluído",
+            description: "Plataforma frontend para criadores receberem PIX em lives, com landing page, autenticação local, painel do criador, overlay, alertas, ranking e área administrativa.",
+            preview: {
+                kicker: "PIX para lives",
+                title: "Alertas e interações em tempo real",
+                items: ["Overlay OBS", "QR Code", "Ranking", "Admin"]
+            },
+            technologies: ["React.js", "Vite", "React Router", "LocalStorage"],
+            features: [
+                "Painel do criador com métricas",
+                "Link e QR Code de pagamento",
+                "Alertas para transmissões ao vivo",
+                "Dashboard administrativo"
+            ]
         }
     ];
 
@@ -414,7 +432,7 @@ function TelaInicial() {
                                     </p>
 
                                     <p className={styles.aboutParagraph}>
-                                        Com uma base sólida em React.js, venho explorando o ecossistema full stack, atuando no desenvolvimento de sistemas web e na integração com backend em Node.js e banco de dados MySQL, incluindo um projeto atual de ERP SaaS em evolução.
+                                        Com uma base sólida em React.js, venho explorando o ecossistema full stack, atuando no desenvolvimento de sistemas web e na integração com backend em Node.js e banco de dados MySQL, incluindo projetos de gestão, agendamento e soluções digitais para pagamentos via Pix.
                                     </p>
 
                                     <p className={styles.aboutParagraph}>
@@ -425,7 +443,7 @@ function TelaInicial() {
                                 <div className={styles.statsGrid}>
                                     <div className={styles.statCard}>
                                         <div className={styles.statIcon}>💻</div>
-                                        <div className={styles.statNumber}>2+</div>
+                                        <div className={styles.statNumber}>3+</div>
                                         <div className={styles.statLabel}>Projetos</div>
                                     </div>
                                     <div className={styles.statCard}>
@@ -583,13 +601,25 @@ function TelaInicial() {
                         <div className={`${styles.grid} ${styles.gridCols3}`}>
                             {projects.map((project, index) => (
                                 <div key={index} className={styles.projectCard}>
-                                    {project.image && (
+                                    {(project.image || project.preview) && (
                                         <div className={styles.projectImageContainer}>
-                                            <img 
-                                                src={project.image} 
-                                                alt={project.title}
-                                                className={styles.projectImage}
-                                            />
+                                            {project.image ? (
+                                                <img
+                                                    src={project.image}
+                                                    alt={project.title}
+                                                    className={styles.projectImage}
+                                                />
+                                            ) : (
+                                                <div className={styles.projectPreview}>
+                                                    <span className={styles.projectPreviewKicker}>{project.preview.kicker}</span>
+                                                    <strong className={styles.projectPreviewTitle}>{project.preview.title}</strong>
+                                                    <div className={styles.projectPreviewItems}>
+                                                        {project.preview.items.map((item) => (
+                                                            <span key={item}>{item}</span>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
                                             <div className={styles.projectImageOverlay}>
                                                 {project.liveUrl && (
                                                     <a
@@ -641,48 +671,50 @@ function TelaInicial() {
                                             ))}
                                         </div>
 
-                                        <div className={styles.projectLinks}>
-                                            {project.githubUrl && (
-                                                <a
-                                                    href={project.githubUrl}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className={styles.projectLink}
-                                                >
-                                                    <span>📄</span> Código
-                                                </a>
-                                            )}
-                                            {project.githubUrlFrontend && (
-                                                <a
-                                                    href={project.githubUrlFrontend}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className={styles.projectLink}
-                                                >
-                                                    <span>💻</span> Frontend
-                                                </a>
-                                            )}
-                                            {project.githubUrlBackend && (
-                                                <a
-                                                    href={project.githubUrlBackend}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className={styles.projectLink}
-                                                >
-                                                    <span>⚙️</span> Backend
-                                                </a>
-                                            )}
-                                            {project.liveUrl && (
-                                                <a
-                                                    href={project.liveUrl}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className={`${styles.projectLink} ${styles.projectLinkDemo}`}
-                                                >
-                                                    <span>🚀</span> Demo ao Vivo
-                                                </a>
-                                            )}
-                                        </div>
+                                        {(project.githubUrl || project.githubUrlFrontend || project.githubUrlBackend || project.liveUrl) && (
+                                            <div className={styles.projectLinks}>
+                                                {project.githubUrl && (
+                                                    <a
+                                                        href={project.githubUrl}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className={styles.projectLink}
+                                                    >
+                                                        <span>📄</span> Código
+                                                    </a>
+                                                )}
+                                                {project.githubUrlFrontend && (
+                                                    <a
+                                                        href={project.githubUrlFrontend}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className={styles.projectLink}
+                                                    >
+                                                        <span>💻</span> Frontend
+                                                    </a>
+                                                )}
+                                                {project.githubUrlBackend && (
+                                                    <a
+                                                        href={project.githubUrlBackend}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className={styles.projectLink}
+                                                    >
+                                                        <span>⚙️</span> Backend
+                                                    </a>
+                                                )}
+                                                {project.liveUrl && (
+                                                    <a
+                                                        href={project.liveUrl}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className={`${styles.projectLink} ${styles.projectLinkDemo}`}
+                                                    >
+                                                        <span>🚀</span> Demo ao Vivo
+                                                    </a>
+                                                )}
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             ))}
